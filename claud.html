@@ -1,0 +1,946 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hugoplate — Ultimate Starter Template</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=Syne:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+<style>
+  :root {
+    --bg-primary: #0d0d0d;
+    --bg-secondary: #141414;
+    --bg-card: #1a1a1a;
+    --bg-card-hover: #222222;
+    --border: #2a2a2a;
+    --border-light: #333333;
+    --text-primary: #f0f0f0;
+    --text-secondary: #999999;
+    --text-muted: #666666;
+    --accent: #e8e0d0;
+    --accent-dim: #b8b0a0;
+    --btn-bg: #f0ebe3;
+    --btn-text: #0d0d0d;
+    --check-color: #a8d5b5;
+    --quote-color: #555;
+    --radius: 16px;
+    --radius-sm: 10px;
+    --shadow: 0 4px 24px rgba(0,0,0,0.5);
+    --transition: all 0.3s cubic-bezier(0.4,0,0.2,1);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg-primary);
+    color: var(--text-primary);
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* ── NOISE OVERLAY ── */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0.4;
+  }
+
+  /* ── TYPOGRAPHY ── */
+  h1, h2, h3, h4 { font-family: 'Syne', sans-serif; line-height: 1.15; }
+  h1 { font-size: clamp(2rem, 5vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
+  h2 { font-size: clamp(1.6rem, 3.5vw, 2.6rem); font-weight: 700; letter-spacing: -0.02em; }
+  h3 { font-size: 1.1rem; font-weight: 600; }
+  p { color: var(--text-secondary); font-size: 0.95rem; line-height: 1.75; }
+
+  /* ── CONTAINER ── */
+  .container { max-width: 1140px; margin: 0 auto; padding: 0 24px; }
+
+  /* ── HEADER ── */
+  header {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: rgba(13,13,13,0.85);
+    backdrop-filter: blur(20px);
+    border-bottom: 1px solid var(--border);
+  }
+
+  .nav-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+  }
+
+  .logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-family: 'Syne', sans-serif;
+    font-weight: 700;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    text-decoration: none;
+  }
+
+  .logo-icon {
+    width: 30px;
+    height: 30px;
+    background: var(--accent);
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--bg-primary);
+    font-size: 0.8rem;
+    font-weight: 800;
+  }
+
+  nav { display: flex; align-items: center; gap: 8px; }
+
+  nav a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.88rem;
+    font-weight: 500;
+    padding: 6px 14px;
+    border-radius: 8px;
+    transition: var(--transition);
+  }
+
+  nav a:hover { color: var(--text-primary); background: var(--bg-card); }
+
+  .nav-actions { display: flex; align-items: center; gap: 10px; }
+
+  .icon-btn {
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-secondary);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: var(--transition);
+    font-size: 0.9rem;
+  }
+
+  .icon-btn:hover { background: var(--bg-card); color: var(--text-primary); border-color: var(--border-light); }
+
+  .btn-primary {
+    background: var(--btn-bg);
+    color: var(--btn-text);
+    border: none;
+    padding: 9px 20px;
+    border-radius: 10px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    white-space: nowrap;
+  }
+
+  .btn-primary:hover { background: #fff; transform: translateY(-1px); box-shadow: 0 4px 16px rgba(240,235,227,0.2); }
+
+  .btn-outline {
+    background: transparent;
+    color: var(--text-primary);
+    border: 1px solid var(--border-light);
+    padding: 11px 24px;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    font-family: 'DM Sans', sans-serif;
+    cursor: pointer;
+    transition: var(--transition);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .btn-outline:hover { background: var(--bg-card); border-color: var(--accent-dim); }
+
+  .hamburger {
+    display: none;
+    flex-direction: column;
+    gap: 5px;
+    cursor: pointer;
+    background: none;
+    border: none;
+    padding: 4px;
+  }
+
+  .hamburger span {
+    width: 24px;
+    height: 2px;
+    background: var(--text-primary);
+    border-radius: 2px;
+    transition: var(--transition);
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    padding: 100px 0 0;
+    text-align: center;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    top: -200px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 800px;
+    height: 800px;
+    background: radial-gradient(ellipse, rgba(200,190,175,0.08) 0%, transparent 70%);
+    pointer-events: none;
+  }
+
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--bg-card);
+    border: 1px solid var(--border-light);
+    border-radius: 100px;
+    padding: 5px 14px 5px 10px;
+    font-size: 0.78rem;
+    color: var(--text-secondary);
+    margin-bottom: 28px;
+    font-weight: 500;
+  }
+
+  .badge-dot {
+    width: 6px;
+    height: 6px;
+    background: #a8d5b5;
+    border-radius: 50%;
+    animation: pulse 2s infinite;
+  }
+
+  @keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.5; transform: scale(1.4); }
+  }
+
+  .hero h1 { max-width: 720px; margin: 0 auto 20px; }
+
+  .hero-sub {
+    max-width: 480px;
+    margin: 0 auto 36px;
+    font-size: 0.95rem;
+    color: var(--text-muted);
+  }
+
+  .hero-cta { margin-bottom: 72px; }
+
+  .hero-img-wrap {
+    position: relative;
+    max-width: 680px;
+    margin: 0 auto;
+  }
+
+  .hero-img-wrap::before {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 50%;
+    background: radial-gradient(ellipse, rgba(200,190,175,0.15) 0%, transparent 70%);
+    filter: blur(30px);
+  }
+
+  .hero-img-wrap img {
+    width: 100%;
+    border-radius: var(--radius) var(--radius) 0 0;
+    filter: grayscale(80%) contrast(1.1);
+    display: block;
+    position: relative;
+  }
+
+  /* ── SECTION DIVIDER ── */
+  .divider {
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+    margin: 0;
+  }
+
+  /* ── SECTIONS ── */
+  .section { padding: 100px 0; }
+
+  .section-alt { background: var(--bg-secondary); }
+
+  /* ── FEATURE GRID ── */
+  .feature-wrap {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 64px;
+    align-items: center;
+  }
+
+  .feature-wrap.reverse { direction: rtl; }
+  .feature-wrap.reverse > * { direction: ltr; }
+
+  .img-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 14px;
+  }
+
+  .img-card {
+    position: relative;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    aspect-ratio: 1 / 1;
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    transition: var(--transition);
+  }
+
+  .img-card:hover { transform: translateY(-3px); border-color: var(--border-light); box-shadow: var(--shadow); }
+
+  .img-card img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(70%) brightness(0.7);
+    transition: var(--transition);
+  }
+
+  .img-card:hover img { filter: grayscale(40%) brightness(0.85); }
+
+  .img-card.tall { grid-row: span 2; aspect-ratio: unset; }
+
+  .feature-text { display: flex; flex-direction: column; gap: 20px; }
+
+  .section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    color: var(--accent-dim);
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .checklist { list-style: none; display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 0.88rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .check-icon {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    background: rgba(168,213,181,0.12);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
+  }
+
+  .check-icon svg { width: 10px; height: 10px; }
+
+  /* ── TESTIMONIALS ── */
+  .testimonials-header { text-align: center; margin-bottom: 56px; }
+  .testimonials-header p { max-width: 500px; margin: 12px auto 0; }
+
+  .testimonial-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+  }
+
+  .testimonial-card {
+    background: var(--bg-card);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: 28px;
+    transition: var(--transition);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .testimonial-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, var(--border-light), transparent);
+  }
+
+  .testimonial-card:hover { border-color: var(--border-light); transform: translateY(-4px); box-shadow: var(--shadow); }
+
+  .quote-mark {
+    font-size: 3rem;
+    line-height: 1;
+    color: var(--quote-color);
+    font-family: Georgia, serif;
+    margin-bottom: 12px;
+  }
+
+  .testimonial-card p {
+    font-size: 0.875rem;
+    color: var(--text-secondary);
+    line-height: 1.7;
+    margin-bottom: 24px;
+  }
+
+  .testimonial-author {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    background: var(--bg-card-hover);
+    flex-shrink: 0;
+    border: 2px solid var(--border);
+  }
+
+  .avatar img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(60%); }
+
+  .author-info { display: flex; flex-direction: column; }
+  .author-name { font-size: 0.88rem; font-weight: 600; color: var(--text-primary); }
+  .author-role { font-size: 0.78rem; color: var(--text-muted); }
+
+  /* ── DOTS ── */
+  .dots { display: flex; justify-content: center; gap: 6px; margin-top: 40px; }
+  .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--border-light); transition: var(--transition); }
+  .dot.active { background: var(--accent); width: 24px; border-radius: 4px; }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--bg-secondary);
+    border-top: 1px solid var(--border);
+    padding: 32px 0;
+  }
+
+  .footer-inner {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links {
+    display: flex;
+    gap: 24px;
+    flex-wrap: wrap;
+  }
+
+  .footer-links a {
+    color: var(--text-muted);
+    text-decoration: none;
+    font-size: 0.83rem;
+    transition: var(--transition);
+  }
+
+  .footer-links a:hover { color: var(--text-secondary); }
+
+  .footer-credit {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid var(--border);
+    margin-top: 24px;
+    padding-top: 20px;
+    font-size: 0.78rem;
+    color: var(--text-muted);
+  }
+
+  .social-links { display: flex; gap: 8px; }
+
+  .social-btn {
+    width: 34px;
+    height: 34px;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--text-muted);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    font-size: 0.78rem;
+    transition: var(--transition);
+  }
+
+  .social-btn:hover { background: var(--bg-card); color: var(--text-secondary); border-color: var(--border-light); }
+
+  /* ── SCROLL ANIMATIONS ── */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .reveal-delay-1 { transition-delay: 0.1s; }
+  .reveal-delay-2 { transition-delay: 0.2s; }
+  .reveal-delay-3 { transition-delay: 0.3s; }
+
+  /* ── MOBILE NAV ── */
+  .mobile-menu {
+    display: none;
+    flex-direction: column;
+    gap: 4px;
+    padding: 12px 24px;
+    border-top: 1px solid var(--border);
+    background: var(--bg-primary);
+  }
+
+  .mobile-menu.open { display: flex; }
+
+  .mobile-menu a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    font-weight: 500;
+    padding: 10px 14px;
+    border-radius: 8px;
+    transition: var(--transition);
+  }
+
+  .mobile-menu a:hover { color: var(--text-primary); background: var(--bg-card); }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 960px) {
+    .feature-wrap { grid-template-columns: 1fr; gap: 40px; }
+    .feature-wrap.reverse { direction: ltr; }
+    .feature-wrap.reverse .img-grid { order: -1; }
+    .testimonial-grid { grid-template-columns: 1fr 1fr; }
+  }
+
+  @media (max-width: 768px) {
+    nav { display: none; }
+    .hamburger { display: flex; }
+    .section { padding: 72px 0; }
+    .testimonial-grid { grid-template-columns: 1fr; }
+    h1 { font-size: 2rem; }
+    h2 { font-size: 1.7rem; }
+  }
+
+  @media (max-width: 480px) {
+    .nav-inner { height: 56px; }
+    .hero { padding: 72px 0 0; }
+    .hero-sub { font-size: 0.88rem; }
+    .img-grid { gap: 10px; }
+    .testimonial-card { padding: 20px; }
+    .footer-inner { flex-direction: column; align-items: flex-start; gap: 16px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ══ HEADER ══ -->
+<header>
+  <div class="container">
+    <div class="nav-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">H</div>
+        Hugoplate
+      </a>
+
+      <nav>
+        <a href="#">Home</a>
+        <a href="#features">About</a>
+        <a href="#features">Elements</a>
+        <a href="#features">Pages ▾</a>
+      </nav>
+
+      <div class="nav-actions">
+        <button class="icon-btn" aria-label="Search">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+          </svg>
+        </button>
+        <button class="icon-btn" aria-label="Toggle theme">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/>
+          </svg>
+        </button>
+        <a href="#" class="btn-primary">Get A Quote</a>
+        <button class="hamburger" id="hamburger" aria-label="Menu">
+          <span></span><span></span><span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="mobile-menu" id="mobileMenu">
+    <a href="#">Home</a>
+    <a href="#features">About</a>
+    <a href="#features">Elements</a>
+    <a href="#features">Pages</a>
+  </div>
+</header>
+
+
+<!-- ══ HERO ══ -->
+<section class="hero">
+  <div class="container">
+    <div class="badge reveal">
+      <span class="badge-dot"></span>
+      Free & Open Source Template
+    </div>
+    <h1 class="reveal reveal-delay-1">The Ultimate Starter Template You Need To Start Your Hugo Project</h1>
+    <p class="hero-sub reveal reveal-delay-2">Hugoplate is a free starter template built with Hugo and TailwindCSS, providing everything you need to jumpstart your Hugo project and save valuable time.</p>
+    <div class="hero-cta reveal reveal-delay-3">
+      <a href="#" class="btn-primary" style="font-size:0.95rem; padding:13px 28px;">Get Started For Free →</a>
+    </div>
+    <div class="hero-img-wrap reveal">
+      <img
+        src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=1200&q=80&auto=format&fit=crop"
+        alt="Developer working at desk"
+        loading="eager"
+      >
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ SECTION 1: What's Included ══ -->
+<section class="section" id="features">
+  <div class="container">
+    <div class="feature-wrap">
+
+      <!-- Image Grid -->
+      <div class="img-grid reveal">
+        <div class="img-card tall">
+          <img src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&q=75&auto=format&fit=crop" alt="Dashboard">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=600&q=75&auto=format&fit=crop" alt="Analytics">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1504868584819-f8e8b4b6d7e3?w=600&q=75&auto=format&fit=crop" alt="Charts">
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="feature-text reveal reveal-delay-1">
+        <span class="section-label">Features</span>
+        <h2>What's Included in Hugoplate</h2>
+        <p>Hugoplate is a comprehensive starter template that includes everything you need to get started with your Hugo project. What's Included in Hugoplate</p>
+        <ul class="checklist">
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            10+ Pre-built pages
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            95+ Google Pagespeed Score
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Build with Hugo and TailwindCSS for easy and customizable styling
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Fully responsive on all devices
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            SEO-optimized for better search engine rankings
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            <strong style="color:var(--text-primary)">Open-source and free</strong>&nbsp;for personal and commercial use
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ SECTION 2: Key Features ══ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="feature-wrap reverse">
+
+      <!-- Text -->
+      <div class="feature-text reveal">
+        <span class="section-label">Why Hugo</span>
+        <h2>Discover the Key Features Of Hugo</h2>
+        <p>Hugo is an all-in-one web framework for building fast, content-focused websites. It offers a range of exciting features for developers and website creators. Some of the key features are:</p>
+        <ul class="checklist">
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Zero JS by default. No JavaScript runtime overhead to slow you down.
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Customizable: TailwindCSS, MDX, and 100+ other integrations to choose from.
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            UI-agnostic: Supports React, Preact, Svelte, Vue, Solid, Lit and more.
+          </li>
+        </ul>
+        <div style="margin-top:8px">
+          <a href="#" class="btn-outline">Get Started Now →</a>
+        </div>
+      </div>
+
+      <!-- Image Grid -->
+      <div class="img-grid reveal reveal-delay-1">
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1542744094-24638eff58bb?w=600&q=75&auto=format&fit=crop" alt="Feature 1">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1611532736597-de2d4265fba3?w=600&q=75&auto=format&fit=crop" alt="Feature 2">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1576153192621-7a3be10b356e?w=600&q=75&auto=format&fit=crop" alt="Feature 3">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?w=600&q=75&auto=format&fit=crop" alt="Feature 4">
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ SECTION 3: Top Reasons ══ -->
+<section class="section">
+  <div class="container">
+    <div class="feature-wrap">
+
+      <!-- Image Grid (3 cards, one spanning) -->
+      <div class="img-grid reveal" style="grid-template-columns: 1.2fr 1fr;">
+        <div class="img-card tall">
+          <img src="https://images.unsplash.com/photo-1526378800651-c32d170fe6f8?w=600&q=75&auto=format&fit=crop" alt="Reason 1">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1499951360447-b19be8fe80f5?w=600&q=75&auto=format&fit=crop" alt="Reason 2">
+        </div>
+        <div class="img-card">
+          <img src="https://images.unsplash.com/photo-1573495612937-f01934eeaaa7?w=600&q=75&auto=format&fit=crop" alt="Reason 3">
+        </div>
+      </div>
+
+      <!-- Text -->
+      <div class="feature-text reveal reveal-delay-1">
+        <span class="section-label">Benefits</span>
+        <h2>The Top Reasons to Choose Hugo for Your Hugo Project</h2>
+        <p>With Hugo, you can build modern and content-focused websites without sacrificing performance or ease of use.</p>
+        <ul class="checklist">
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Instantly load static sites for better user experience and SEO.
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Intuitive syntax and support for popular frameworks make learning and using Hugo a breeze.
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Use any front-end library or framework, or build custom components, for any project size.
+          </li>
+          <li>
+            <span class="check-icon">
+              <svg viewBox="0 0 12 12" fill="none" stroke="#a8d5b5" stroke-width="2"><polyline points="2,6 5,9 10,3"/></svg>
+            </span>
+            Built on cutting-edge technology to keep your projects up-to-date with the latest web standards.
+          </li>
+        </ul>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+
+<!-- ══ TESTIMONIALS ══ -->
+<section class="section section-alt">
+  <div class="container">
+    <div class="testimonials-header reveal">
+      <h2>What Users Are Saying About Hugoplate</h2>
+      <p>Don't just take our word for it — hear from some of our satisfied users! Check out some of our testimonials below to see what others are saying about Hugoplate.</p>
+    </div>
+
+    <div class="testimonial-grid">
+
+      <div class="testimonial-card reveal">
+        <div class="quote-mark">"</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Qui satis illis mole stias, assumenda expedita commodi inventore ius fugue molestiae voluptatum dolore, facilis sapiente, reicitur veniam.</p>
+        <div class="testimonial-author">
+          <div class="avatar">
+            <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=80&q=70&auto=format&fit=crop&crop=face" alt="Marvin McKinney">
+          </div>
+          <div class="author-info">
+            <span class="author-name">Marvin McKinney</span>
+            <span class="author-role">Web Designer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-1">
+        <div class="quote-mark">"</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Qui satis illis mole stias, assumenda expedita commodi inventore ius fugue molestiae voluptatum dolore, facilis sapiente, reicitur veniam.</p>
+        <div class="testimonial-author">
+          <div class="avatar">
+            <img src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?w=80&q=70&auto=format&fit=crop&crop=face" alt="Sarah Johnson">
+          </div>
+          <div class="author-info">
+            <span class="author-name">Sarah Johnson</span>
+            <span class="author-role">Frontend Developer</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="testimonial-card reveal reveal-delay-2">
+        <div class="quote-mark">"</div>
+        <p>Lorem ipsum dolor sit amet consectetur adipiscing elit. Qui satis illis mole stias, assumenda expedita commodi inventore ius fugue molestiae voluptatum dolore, facilis sapiente, reicitur veniam.</p>
+        <div class="testimonial-author">
+          <div class="avatar">
+            <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=80&q=70&auto=format&fit=crop&crop=face" alt="James Wilson">
+          </div>
+          <div class="author-info">
+            <span class="author-name">James Wilson</span>
+            <span class="author-role">UX Designer</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="dots reveal">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+      <div class="dot"></div>
+    </div>
+
+  </div>
+</section>
+
+
+<!-- ══ FOOTER ══ -->
+<footer>
+  <div class="container">
+    <div class="footer-inner">
+      <a href="#" class="logo">
+        <div class="logo-icon">H</div>
+        Hugoplate
+      </a>
+      <div class="footer-links">
+        <a href="#">About</a>
+        <a href="#">Elements</a>
+        <a href="#">Privacy Policy</a>
+      </div>
+      <div class="social-links">
+        <a href="#" class="social-btn" aria-label="Facebook">f</a>
+        <a href="#" class="social-btn" aria-label="Twitter">𝕏</a>
+        <a href="#" class="social-btn" aria-label="Instagram">in</a>
+        <a href="#" class="social-btn" aria-label="RSS">⊕</a>
+      </div>
+    </div>
+    <div class="footer-credit">
+      Designed &amp; Developed by <strong style="color:var(--text-secondary)">Deon Studio</strong>
+    </div>
+  </div>
+</footer>
+
+
+<script>
+  // ── Scroll Reveal
+  const revealEls = document.querySelectorAll('.reveal');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add('visible');
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  revealEls.forEach(el => observer.observe(el));
+
+  // Show hero elements immediately
+  document.querySelectorAll('.hero .reveal').forEach((el, i) => {
+    setTimeout(() => el.classList.add('visible'), 100 + i * 120);
+  });
+
+  // ── Hamburger
+  const hamburger = document.getElementById('hamburger');
+  const mobileMenu = document.getElementById('mobileMenu');
+  hamburger.addEventListener('click', () => {
+    mobileMenu.classList.toggle('open');
+  });
+
+  // ── Header scroll style
+  const header = document.querySelector('header');
+  window.addEventListener('scroll', () => {
+    header.style.borderBottomColor = window.scrollY > 20 ? '#222' : 'var(--border)';
+  });
+</script>
+</body>
+</html>
